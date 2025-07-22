@@ -1,4 +1,5 @@
-const Thread = require('../models/thread');
+const Thread = require("./database.js").Thread;
+const hash = require("./hash.js");
 
 exports.post = (req, res) => {
   const { text, delete_password } = req.body;
