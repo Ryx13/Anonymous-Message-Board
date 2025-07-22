@@ -27,7 +27,9 @@ app.route('/')
   .get((req, res) => res.sendFile(process.cwd() + '/views/index.html'));
 
 /* ----------  DATABASE  ---------- */
-mongo.connect(process.env.DB)
+const { MongoClient } = require('mongodb');
+
+MongoClient.connect(process.env.DB, { useNewUrlParser: true, useUnifiedTopology: true })
      .then(client => {
         app.locals.db = client.db();
         console.log('Mongo connected');
