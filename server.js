@@ -1,7 +1,7 @@
+const { MongoClient } = require('mongodb');
 const express = require('express');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
-const { MongoClient } = require('mongodb');
 const apiRoutes = require('./routes/api.js');
 
 const app = express();
