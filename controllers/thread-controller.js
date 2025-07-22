@@ -1,9 +1,9 @@
-const Thread = require("./database.js").Thread;
-const hash = require("./hash.js");
+const Thread = require('../models/thread');
 
 exports.post = (req, res) => {
-  const { text, delete_password } = req.body;
+  const { text, delete_password, board } = req.body;
   const newThread = new Thread({
+    board,
     text,
     delete_password,
     created_on: new Date(),
@@ -24,6 +24,9 @@ exports.get = (req, res) => {
     .populate('replies', 'text created_on')
     .exec((err, threads) => {
       if (err) return res.status(500).send(err);
+      threads.forEach(thread => {
+        thread.replies = thread.replies.slice(-3);
+      });
       res.status(200).send(threads);
     });
 };

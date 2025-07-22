@@ -9,11 +9,11 @@ module.exports = function(app) {
     .post(threadController.post)
     .get(threadController.get)
     .delete(threadController.delete)
-    .put(threadController.put)
+    .put(threadController.put);
 
   app.route('/api/replies/:board')
     .post(replyController.post)
     .get(replyController.get)
     .delete(replyController.delete)
-    .put(replyController.put)
+    .put(replyController.put);
 };
