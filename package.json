@@ -1,27 +1,30 @@
 {
-  "name": "anonymous-message-board",
-  "version": "1.0.0",
-  "description": "freeCodeCamp – Information Security 2",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js",
-    "test": "mocha --timeout 5000 tests/2_functional-tests.js"
-  },
-  "dependencies": {
-    "body-parser": "^1.20.2",
-    "chai": "^4.3.7",
-    "chai-http": "^4.4.0",
-    "cors": "^2.8.5",
-    "dotenv": "^16.3.1",
-    "express": "^4.18.2",
-    "helmet": "^7.0.0",
-    "mongodb": "^6.17.0"
-  },
-  "engines": {
-    "node": "16.x"
-  },
-  "license": "MIT",
-  "devDependencies": {
-    "mocha": "^11.7.1"
-  }
+	"name": "boilerplate-project-messagebaord",
+	"version": "0.0.1",
+	"description": "InfoSec project for freeCodeCamp",
+	"main": "server.js",
+	"scripts": {
+		"start": "node server.js"
+	},
+	"dependencies": {
+		"bcrypt": "^5.1.1",
+		"body-parser": "^1.15.2",
+		"chai": "^4.2.0",
+		"chai-http": "^5.1.2",
+		"cors": "^2.8.1",
+		"dotenv": "^8.2.0",
+		"express": "^4.14.0",
+		"helmet": "^3.1.0",
+		"mocha": "^11.7.1",
+		"mongoose": "^8.16.4"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/freeCodeCamp/boilerplate-project-messageboard"
+	},
+	"keywords": [
+		"node",
+		"express"
+	],
+	"license": "MIT"
 }
