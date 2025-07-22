@@ -1,42 +1,41 @@
-require('dotenv').config();
-const express     = require('express');
-const helmet      = require('helmet');
-const bodyParser  = require('body-parser');
-const mongo       = require('mongodb');
-const apiRoutes   = require('./routes/api.js');
-const fccTesting  = require('./routes/fcctesting.js');
+const express = require('express');
+const helmet = require('helmet');
+const bodyParser = require('body-parser');
+const { MongoClient } = require('mongodb');
+const apiRoutes = require('./routes/api.js');
 
 const app = express();
 
 /* ----------  SECURITY  ---------- */
 app.use(helmet.xssFilter());
 app.use(helmet.noSniff());
-app.use(helmet.xFrameOptions({ action: 'sameorigin' }));   // User-story 2
-app.use(helmet.dnsPrefetchControl({ allow: false }));      // User-story 3
-app.use(helmet.referrerPolicy({ policy: 'same-origin' })); // User-story 4
+app.use(helmet.xFrameOptions({ action: 'sameorigin' }));
+app.use(helmet.dnsPrefetchControl({ allow: false }));
+app.use(helmet.referrerPolicy({ policy: 'same-origin' }));
 app.disable('x-powered-by');
 
 /* ----------  MIDDLEWARE  ---------- */
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-/* ----------  SERVE STATIC & FCC TEST ROUTES  ---------- */
-app.use('/public', express.static(process.cwd() + '/public'));
-app.use('/api', fccTesting);          // keep – required for fcc tests
-app.route('/')
-  .get((req, res) => res.sendFile(process.cwd() + '/views/index.html'));
-
 /* ----------  DATABASE  ---------- */
-const { MongoClient } = require('mongodb');
+const uri = process.env.DB;
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-MongoClient.connect(process.env.DB, { useNewUrlParser: true, useUnifiedTopology: true })
-     .then(client => {
-        app.locals.db = client.db();
-        console.log('Mongo connected');
-     })
-     .catch(err => console.error(err));
+async function connectDB() {
+  try {
+    await client.connect();
+    console.log('MongoDB connected');
+    app.locals.db = client.db();
+  } catch (err) {
+    console.error('MongoDB connection error:', err);
+    process.exit(1);
+  }
+}
 
-/* ----------  API ROUTES  ---------- */
+connectDB();
+
+/* ----------  ROUTES  ---------- */
 app.use('/api', apiRoutes);
 
 /* ----------  404  ---------- */
